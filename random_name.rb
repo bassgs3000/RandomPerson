@@ -43,7 +43,49 @@ yob = birthinfo[3]
 
 bdate = "#{mob}/#{dob}/#{yob}"
 
-#Regex to grab SSN.
-ssn_str = site.chomp.match(/<li class="lab">SSN:<\/li><li>(\d{3}-\d{2}-\d{4})\s?<div class/)
-ssn = ssn_str[1]
 
+#Regex to grab Address
+addr_str = site.chomp.match(/<div class="adr">\s+((\w+\s?)+?)<br\/>((\w+\s?)+?),\s(\w+)\s(\d+)\s+<\/div>/)
+addr = {
+  "Address" => addr_str[1],
+  "City" => addr_str[3],
+  "State" => addr_str[5],
+  "Zip_Code" => addr_str[6]
+}
+
+#Regex to grab Phone #
+phone_str = site.chomp.match(/\d{3}-\d{3}-\d{4}/)
+ph_num = phone_str[0]
+
+#Regex to grab Email
+email_str = site.chomp.match(/>(\S+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/)
+email = email_str[1]
+
+#Regex to grab SSN.
+#ssn_str = site.chomp.match(/<li class="lab">SSN:<\/li><li>(\d{3}-\d{2}-\d{4})\s?<div class/)
+ssn_str = site.chomp.match(/\d{3}-\d{2}-\d{4}/)
+ssn = ssn_str[0]
+
+#Passport generation
+passport = ((0..899999).to_a.sample)+1000000
+
+#Issue Date generation
+issue_date = "#{mob}/#{Date.today.year-2}"
+expire_date = "#{mob}/#{Date.today.year+2}"
+
+# Presentation
+print result =
+"First Name:  #{firstname}
+Last Name:   #{lastname}
+Birthdate:   #{bdate}
+Address:     #{addr["Address"]}
+City:        #{addr["City"]}
+State:       #{addr["State"]}
+Zip Code:    #{addr["Zip_Code"]}
+Phone:       #{ph_num}
+Email:       #{email}
+SS Number:   #{ssn}
+Passport:    #{passport}
+Issue Date:  #{issue_date}
+Expire Date: #{expire_date}
+"
