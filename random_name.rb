@@ -2,6 +2,8 @@
 
 require 'open-uri'
 
+#I download the page once and after that query the temporary IO stream multiple
+#times.
 #Opens IO stream.
 randsite = open("http://www.fakenamegenerator.com/gen-random-us-us.php", "r")
 #Sets empty string to allow html to be injected in.
